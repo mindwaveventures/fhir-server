@@ -3,7 +3,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
 // -------------------------------------------------------------------------------------------------
 
-using Hl7.Fhir.Model;
+using Hl7.Fhir.ElementModel;
 
 namespace Microsoft.Health.Fhir.Core.Features.Persistence
 {
@@ -17,6 +17,6 @@ namespace Microsoft.Health.Fhir.Core.Features.Persistence
         /// </summary>
         /// <param name="resource">The resource to be converted</param>
         /// <returns>An instance of <see cref="RawResource"/>.</returns>
-        RawResource Create(Resource resource);
+        RawResource Create(ITypedElement resource);
     }
 }

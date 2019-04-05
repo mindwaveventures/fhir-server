@@ -5,7 +5,6 @@
 
 using System;
 using EnsureThat;
-using Hl7.Fhir.Model;
 
 namespace Microsoft.Health.Fhir.Core
 {
