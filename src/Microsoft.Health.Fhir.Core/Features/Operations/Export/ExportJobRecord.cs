@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Health.Fhir.Core.Features.Export
 {
+    /// <summary>
+    /// Class to hold metadata for an individual export request.
+    /// </summary>
     public class ExportJobRecord
     {
         public ExportJobRecord(CreateExportRequest exportRequest, int jobSchemaVersion)
@@ -34,25 +37,25 @@ namespace Microsoft.Health.Fhir.Core.Features.Export
         }
 
         [JsonProperty(JobRecordProperties.Request)]
-        public CreateExportRequest Request { get; }
+        public CreateExportRequest Request { get; private set; }
 
         [JsonProperty(JobRecordProperties.Id)]
-        public string Id { get; }
+        public string Id { get; private set; }
 
         [JsonProperty(JobRecordProperties.JobHash)]
-        public string JobHash { get; }
+        public string JobHash { get; private set; }
 
         [JsonProperty(JobRecordProperties.JobQueuedTime)]
-        public DateTimeOffset QueuedTime { get; }
+        public DateTimeOffset QueuedTime { get; private set; }
 
         [JsonProperty(JobRecordProperties.PartitonKey)]
         public string PartitionKey { get; } = OperationsConstants.ExportJobPartitionKey;
 
         [JsonProperty(JobRecordProperties.JobSchemaVersion)]
-        public int JobSchemaVersion { get; }
+        public int JobSchemaVersion { get; private set;  }
 
         [JsonProperty(JobRecordProperties.Output)]
-        public ExportJobOutput Output { get; } = new ExportJobOutput();
+        public ExportJobOutput Output { get; private set; } = new ExportJobOutput();
 
         [JsonProperty(JobRecordProperties.JobStatus)]
         public OperationStatus JobStatus { get; set; }

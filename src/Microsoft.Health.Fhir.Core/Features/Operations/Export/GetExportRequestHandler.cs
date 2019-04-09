@@ -46,7 +46,7 @@ namespace Microsoft.Health.Fhir.Core.Features.Export
             {
                 responseCode = HttpStatusCode.OK;
                 var jobResult = new ExportJobResult(
-                    new Instant(result.JobStartTime),
+                    new Instant(result.QueuedTime),
                     result.Request.RequestUri,
                     false,
                     result.Output.Results,
