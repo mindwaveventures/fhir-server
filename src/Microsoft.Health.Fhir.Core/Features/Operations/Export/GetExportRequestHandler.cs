@@ -48,9 +48,9 @@ namespace Microsoft.Health.Fhir.Core.Features.Export
                 var jobResult = new ExportJobResult(
                     new Instant(result.QueuedTime),
                     result.Request.RequestUri,
-                    false,
-                    result.Output.Results,
-                    result.Output.Errors);
+                    false /* requiresAccessToken */,
+                    result.Output,
+                    result.Errors);
 
                 exportResponse = new GetExportResponse(true, responseCode, jobResult);
             }

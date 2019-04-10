@@ -4,6 +4,7 @@
 // -------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using EnsureThat;
 using Microsoft.Health.Fhir.Core.Features.Operations;
 using Microsoft.Health.Fhir.Core.Messages.Export;
@@ -49,13 +50,16 @@ namespace Microsoft.Health.Fhir.Core.Features.Export
         public DateTimeOffset QueuedTime { get; private set; }
 
         [JsonProperty(JobRecordProperties.PartitonKey)]
-        public string PartitionKey { get; } = OperationsConstants.ExportJobPartitionKey;
+        public string PartitionKey { get; private set; } = OperationsConstants.ExportJobPartitionKey;
 
         [JsonProperty(JobRecordProperties.JobSchemaVersion)]
-        public int JobSchemaVersion { get; private set;  }
+        public int JobSchemaVersion { get; private set; }
 
         [JsonProperty(JobRecordProperties.Output)]
-        public ExportJobOutput Output { get; private set; } = new ExportJobOutput();
+        public List<ExportFileInfo> Output { get; private set; } = new List<ExportFileInfo>();
+
+        [JsonProperty(JobRecordProperties.Error)]
+        public List<ExportFileInfo> Errors { get; private set; } = new List<ExportFileInfo>();
 
         [JsonProperty(JobRecordProperties.JobStatus)]
         public OperationStatus JobStatus { get; set; }
