@@ -59,6 +59,7 @@ namespace Microsoft.Health.Fhir.Api.Features.ActionResults
                 response.Headers.Add(header);
             }
 
+            // We will either have a JobResult or an Error, not both.
             ActionResult result;
             if (Error == null && JobResult == null)
             {
