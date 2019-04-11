@@ -62,6 +62,11 @@ namespace Microsoft.Health.Fhir.Core.UnitTests.Features.Export
             Assert.True(result.JobExists);
             Assert.Equal(HttpStatusCode.OK, result.StatusCode);
             Assert.NotNull(result.JobResult);
+
+            // Check whether required fields are present.
+            Assert.NotNull(result.JobResult.Output);
+            Assert.NotNull(result.JobResult.TransactionTime);
+            Assert.NotNull(result.JobResult.RequestUri);
         }
 
         [Fact]
