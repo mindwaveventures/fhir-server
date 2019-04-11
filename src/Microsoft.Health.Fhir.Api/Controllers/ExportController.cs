@@ -21,6 +21,7 @@ using Microsoft.Health.Fhir.Api.Features.Security;
 using Microsoft.Health.Fhir.Core.Configs;
 using Microsoft.Health.Fhir.Core.Exceptions;
 using Microsoft.Health.Fhir.Core.Extensions;
+using Microsoft.Health.Fhir.Core.Features;
 using Microsoft.Health.Fhir.Core.Features.Context;
 using Microsoft.Health.Fhir.Core.Features.Operations;
 using Microsoft.Health.Fhir.Core.Features.Routing;
@@ -75,12 +76,16 @@ namespace Microsoft.Health.Fhir.Api.Controllers
         [Route(KnownRoutes.Export)]
         [ValidateExportHeadersFilter]
         [AuditEventType(AuditEventSubType.Export)]
-        public async Task<IActionResult> Export()
+        public async Task<IActionResult> Export(
+            [FromQuery(Name = KnownQueryParameterNames.DestinationType)] string destinationType,
+            [FromQuery(Name = KnownQueryParameterNames.DestinationConnectionString)] string destinationConnectionString)
         {
             if (!_exportConfig.Enabled)
             {
                 throw new RequestNotValidException(string.Format(Resources.UnsupportedOperation, OperationsConstants.Export));
             }
+
+            ValidateQueryParamsAndThrowIfInvalid(destinationType, destinationConnectionString);
 
             CreateExportResponse response = await _mediator.ExportAsync(_fhirRequestContextAccessor.FhirRequestContext.Uri);
 
@@ -170,6 +175,19 @@ namespace Microsoft.Health.Fhir.Api.Controllers
             }
 
             throw new OperationNotImplementedException(string.Format(Resources.OperationNotImplemented, OperationsConstants.Export));
+        }
+
+        private void ValidateQueryParamsAndThrowIfInvalid(string destinationType, string destinationConnectionString)
+        {
+            if (string.IsNullOrWhiteSpace(destinationType) || !string.Equals(destinationType, "AzureBlockBlob", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new RequestNotValidException(string.Format(Resources.UnsupportedParameterValue, KnownQueryParameterNames.DestinationType));
+            }
+
+            if (string.IsNullOrWhiteSpace(destinationConnectionString))
+            {
+                throw new RequestNotValidException(string.Format(Resources.UnsupportedParameterValue, KnownQueryParameterNames.DestinationConnectionString));
+            }
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Microsoft.Health.Fhir.Api.UnitTests.Controllers
         {
             var exportController = GetController(new ExportConfiguration() { Enabled = false });
 
-            await Assert.ThrowsAsync<RequestNotValidException>(() => exportController.Export());
+            await Assert.ThrowsAsync<RequestNotValidException>(() => exportController.Export("destinationType", "destinationConnection"));
         }
 
         [Fact]
