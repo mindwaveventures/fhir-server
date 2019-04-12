@@ -20,6 +20,8 @@ namespace Microsoft.Health.Fhir.Api.UnitTests.Controllers
     public class ExportControllerTests
     {
         private ExportController _exportEnabledController;
+        private const string DestinationType = "AzureBlockBlob";
+        private const string DestinationConnection = "destinationConnection";
 
         public ExportControllerTests()
         {
@@ -31,7 +33,7 @@ namespace Microsoft.Health.Fhir.Api.UnitTests.Controllers
         {
             var exportController = GetController(new ExportConfiguration() { Enabled = false });
 
-            await Assert.ThrowsAsync<RequestNotValidException>(() => exportController.Export("destinationType", "destinationConnection"));
+            await Assert.ThrowsAsync<RequestNotValidException>(() => exportController.Export(DestinationType, DestinationConnection));
         }
 
         [Fact]
